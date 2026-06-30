@@ -23,11 +23,7 @@ are being designed and built together — the OS and the agent are one system.
 
 ## Docs
 
-Full documentation lives in the [wiki](https://github.com/mojo-labs-circus/mojos/wiki):
-
-- [Vision](https://github.com/mojo-labs-circus/mojos/wiki/Vision)
-- [Architecture](https://github.com/mojo-labs-circus/mojos/wiki/Architecture)
-- [Roadmap](https://github.com/mojo-labs-circus/mojos/wiki/Roadmap)
+Design notes and roadmap are in [`docs/`](docs/).
 
 ## License
 
