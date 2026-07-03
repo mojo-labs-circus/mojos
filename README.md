@@ -1,29 +1,28 @@
 # MojOS
 
 Linux is the most powerful, private, and customisable operating system in the world.
-Most people never get to use it — because using it well requires learning a discipline
-that most people have no reason to learn.
+Most people never get to use it — because using it well means learning a discipline
+most people have no reason to learn. AI agents change that.
 
-AI agents change that. MojOS is a custom Arch Linux install built around a local AI
-agent from the ground up. The agent has full control of the machine — packages, config,
-files, the desktop, applications — and the OS is designed to make that safe. You talk
-to it. It handles the rest.
+MojOS is a NixOS-based system built around a local AI agent
+([mojo-agent](https://github.com/mojo-labs-circus/mojo-agent)) from the ground up.
+The agent is the primary interface, and the OS is designed to make that safe: the
+entire system is declared in one flake, every change lands as a NixOS generation —
+staged, validated, always safe to undo. Full system control that can't quietly break
+your machine.
 
-The deeper motivation: data is becoming the most valuable commodity in the world.
-Windows is surveillance software. People are going to need computers they actually own
-and control. MojOS is the answer to that — Linux's full power, without needing to know
-anything about Linux.
-
----
+It's also a workshop with moods: switchable modes that change how the system looks,
+behaves, and how much of it shows — a dense coding mode, a warm creative mode, a
+plain-looking mode for when other people are around.
 
 ## Status
 
-Early development. MojOS and [mojo-agent](https://github.com/mojo-labs-circus/mojo-agent)
-are being designed and built together — the OS and the agent are one system.
+**v0.1 in progress** — nothing installable yet. The current milestone (flake, modes,
+VM-proven, then daily driver) is in [V0.1.md](V0.1.md).
 
-## Docs
-
-Design notes and roadmap are in [`docs/`](docs/).
+The vision and philosophy behind this live in the
+[mojo](https://github.com/mojo-labs-circus/mojo) repo — that's the thinking; this
+repo is part of the proof.
 
 ## License
 
