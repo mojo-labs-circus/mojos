@@ -11,6 +11,14 @@ never an architectural choice, it's one physical event. A dedicated "real" serve
 a further-out someday thought (once older, more into running local AI, hopefully
 alongside Paredros if that ever exists) — noted here, not planned.
 
+## Ephemeral host profiles
+
+Future hosts aren't only named machines. Ghost boots plausibly need several distinct
+*kinds* of throwaway system, not one generic shape — which means `hosts/` eventually
+needs a profile/template-generating function alongside the named-machine
+directories, not just more named directories. Real requirement, not speculative —
+design it when ghost boots actually get built, not before.
+
 ## Provisioning — one mechanism, not three
 
 `disko` (declarative partitioning) + `nixos-anywhere` (SSH into any live-booted

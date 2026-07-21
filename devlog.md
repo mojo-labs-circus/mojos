@@ -83,6 +83,57 @@ it, not after — secrets are day-one scope now, not a later add-on.
 
 ---
 
+## 2026-07-21 — Bootstrap rule scoped, migration settled, modules-vs-flat left open
+
+Same day, closing out after the commit above.
+
+**Decided: VM-before-metal reworded as a bootstrap-phase rule, not a permanent one.**
+Once MojOS is running on real hardware, the reversibility architecture (generations +
+snapper + impermanence) is the safety net for further changes, not a VM step —
+changes get made and switched from within MojOS directly at that point. AGENTS.md
+updated.
+
+**Decided: no bulk `~/` git dump for the Arch→MojOS migration.** Real risk in that
+plan — SSH keys, browser profiles, shell history that's very plausibly got a pasted
+secret in it somewhere, and git history doesn't actually forget just because a file
+gets deleted later, private repo or not. Actual plan: a 64GB USB, Projects and
+Documents only. Dotfiles/SSH keys/everything else gets rebuilt fresh per host anyway
+— matches the existing convention (baker) of generating a new keypair per machine
+rather than migrating an old one.
+
+**Clarified, not re-decided:** home directory content isn't git-backed under this
+design at all — it's Snapper-snapshotted on a persistent volume, a different and
+better-suited mechanism than git for arbitrary/large/binary data (instant CoW
+snapshots vs. git's commit overhead). Only the flake/config is git-backed. That
+split is *why* Snapper exists as its own mechanism, decided back on 2026-07-05.
+
+**flake-parts, re-covered:** still not needed now — single architecture, personal
+fleet, not a published library, and it showed up in none of the reference repos
+surveyed. Flagged as worth reconsidering specifically if ghost boots ever run on
+non-x86_64 borrowed hardware (an ARM laptop, an SBC) — that's a real
+multi-system-architecture problem, distinct from the modules question below.
+
+**Left open, not resolved:** whether to split `modules/` (desktop/security/services/
+etc.) from the very first host — applying SOLID and "best practices from day one" —
+versus starting flat with one host config and extracting shared modules only once a
+second host actually needs them. Made the case that SOLID doesn't transfer cleanly
+from OOP to a one-person Nix config, and that the reference repos surveyed back
+"flat first" (maxclax has no modules/ split at all; totoroot's concern-based split is
+years-mature, not day-one). Clarke isn't convinced. Not forcing a resolution in the
+abstract — genuinely open, revisit once there's real code to argue about instead of
+a hypothetical.
+
+**New, does matter regardless of how the above resolves:** future hosts include
+ephemeral *profiles* (parameterized templates for different kinds of throwaway
+system), not just named machines — a real requirement that changes `hosts/`'s
+eventual shape, not speculative. Noted in ideas/fleet.md.
+
+Next: actually start the flake — `flake.nix` + `hosts/nomadbaker/`, written by Clarke
+with explanation as it happens. The modules-vs-flat question gets settled by however
+that first file actually ends up structured, not argued to a conclusion beforehand.
+
+---
+
 ## 2026-07-06 — Nix installed on nomadbaker; flake anatomy taught, nothing written yet
 
 Follow-up session. Circus/installer/model-selection tangents got parked into

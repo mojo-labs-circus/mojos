@@ -8,6 +8,9 @@ lukejcollins/nix-multi-system-flake; fortydeux/Fortydeux-NixOS-System-Flake).
   flakes targeting multiple platforms, or exporting reusable modules for other
   people's flakes. Neither applies — single arch (x86_64-linux), personal fleet, not
   a published library. It showed up in none of the personal-fleet repos surveyed.
+  Reconsider specifically if ghost boots ever run on non-x86_64 borrowed hardware
+  (an ARM laptop, an SBC) — that's a real multi-system-architecture problem
+  flake-parts solves cleanly, distinct from the modules-organization question below.
 - **`hosts/<hostname>/` directories**, not generic profiles — added when a machine
   actually exists, not built ahead of hardware. Matches the project's own convention
   of naming real machines (`nomadbaker`, `pearlybaker`) rather than placeholders.
