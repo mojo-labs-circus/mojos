@@ -5,6 +5,84 @@ live in the thinking repo's devlog — this one's for MojOS design and build rea
 
 ---
 
+## 2026-07-21 — Cutting ties with Mojo/Paredros for real, repo shape settled, modes decided
+
+Long discussion session, no code. Five parallel research forks (flake architecture,
+NixOS/Hyprland ricing ecosystem, advanced NixOS capabilities, general Linux community
+trends, what actually makes a rice good) plus a look at baker (the old Arch install
+repo this replaces) and at how other personal NixOS repos structure themselves.
+
+**Decided: MojOS doesn't mention Mojo/Paredros anywhere, not even in passing.** The
+old interoperability-standard project renamed itself Paredros and moved on; MojOS
+doesn't need it to exist to be worth building. home-manager, impermanence, secrets,
+reversibility — everything that makes MojOS good is wanted regardless of whether a
+future AI counterpart ever gets integrated. README/AGENTS.md each keep exactly one
+forward-looking line acknowledging that possibility, unnamed and undepended-on.
+
+**Decided: repo shape.** README.md is pure description, no status section —
+structure does the explaining, matching what well-regarded personal Nix repos
+actually do (mitchellh/nixos-config, totoroot/dotfiles, San7o/nixos-dotfiles).
+AGENTS.md stays short and stable per the real agents.md convention (files over ~150
+lines see diminishing returns and higher inference cost without better agent
+behavior) — dropped its old "current stage" section entirely, since volatile status
+doesn't belong in a doc meant to stay put. **No ROADMAP.md, no replacement for
+V0.1.md** — this repo's own devlog convention already ends every entry with "Next:",
+which *is* the roadmap, chronologically, without a parallel artifact to maintain.
+V0.1.md deleted outright. New `ideas/` directory: one file per topic (modes, ricing,
+flake-structure, secrets, fleet, sandboxing, misc), holds the unordered someday-stuff,
+shrinks as things get built rather than "graduating" into another doc.
+
+**Decided: flake structure.** Plain `nixosSystem`, no flake-parts (that earns its
+keep for multi-platform or reusable-library flakes, neither applies to a personal
+single-arch fleet). `hosts/<hostname>/` directories, added when a machine actually
+exists.
+
+**Decided: sops-nix over agenix, needed immediately, not deferred.** Even single-host
+daily driving needs somewhere for SSH keys/wifi/tokens that isn't plaintext in git.
+sops-nix's bundled-secrets-per-service model avoids a migration once the fleet
+exists; the one extra concept it adds over agenix (a `.sops.yaml`) isn't a real
+beginner blocker.
+
+**Decided: ghost boots aren't a separate mechanism.** `nixos-generators` builds a
+bootable image straight from a `nixosConfigurations.<host>` entry — a ghost host is
+just another flake output, built as an ISO instead of installed to disk. Same
+`disko` + `nixos-anywhere` combo covers PC install, server install, and ghost
+re-provisioning.
+
+**Decided: fleet deploy model, for when it matters.** Push (colmena) for the laptop
+and one-shot ghosts; pull/GitOps (comin) for always-on hosts that should self-heal.
+Mesh networking (tool TBD — deliberately not carrying over baker's Tailscale/
+circus-tent tailnet just because it existed before) doesn't mean anything until a
+second host exists, so it isn't its own phase — it attaches to whichever host is #2.
+
+**Decided: modes change behavior first, look follows.** Three for now: regular/
+classic (MojOS being itself — ships first, no switching mechanism needed for it to
+exist), a second mode for when other people are watching the screen (not boring,
+just restrained on nerd-signaling — no name settled, "muggle mode" proposed and
+rejected), and coding (dialed in, terminal-heavy, fixed app set on entry). Session
+"carries on from last time" splits into fixed declarative launch (in scope, every
+mode gets one) vs true session resume (real runtime state, fights impermanence,
+parked in ideas/modes.md). Per-project coding mode also parked. None of this blocks
+the daily-driver milestone — regular mode alone is enough to replace Arch.
+
+**Confirmed, not re-decided:** the reversibility trio (generations/snapper/
+impermanence) from the 2026-07-05 entries below stands untouched.
+
+**Hardware reality, not a design decision:** laptop-only for about the next two
+months. Then back at uni, a daily-driver-grade gaming PC and a second, lesser PC
+being repurposed into an always-on headless server both arrive at the same moment —
+so "PC then server" was never actually an architectural choice, it's one physical
+event. A dedicated "real" server is a further-out someday thought (noted in
+ideas/fleet.md), not planned.
+
+Git remote moved to `git@github.com:Dequavis-Fitzgerald-III/mojos.git`.
+
+Next: the actual flake skeleton — `flake.nix` + `hosts/nomadbaker/configuration.nix`,
+written by Clarke with explanation as it happens. sops-nix setup happens alongside
+it, not after — secrets are day-one scope now, not a later add-on.
+
+---
+
 ## 2026-07-06 — Nix installed on nomadbaker; flake anatomy taught, nothing written yet
 
 Follow-up session. Circus/installer/model-selection tangents got parked into

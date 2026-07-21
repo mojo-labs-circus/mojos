@@ -1,34 +1,31 @@
 # mojos — the MojOS flake
 
-The OS piece of the Mojo project: a NixOS system built around mojo-agent as the
-primary interface. This repo becomes the flake that declares Clarke's entire system.
+Clarke's personal NixOS: one flake declaring every machine he runs, fully
+declarative, git-versioned, reversible by design. Stands on its own — nothing here
+depends on any other project existing. Built to be a genuinely good NixOS on its own
+terms; that also happens to make it a good foundation for deeper integration later,
+whenever that's ready.
 
-**Before any work here:** read the thinking repo —
-`~/projects/mojo/vision.md` and `~/projects/mojo/philosophy.md` — then the current
-milestone in [V0.1.md](V0.1.md). OS-layer design/build thinking produced in a
-session here gets captured in this repo's own [devlog.md](devlog.md);
-project-wide vision decisions still go back to the thinking repo
-(`~/projects/mojo/devlog.md` / `ideas.md`).
-
-## Current stage
-
-Pre-flake. v0.1 (see [V0.1.md](V0.1.md)): a minimal flake, VM-proven, built to run
-Hermes Agent — then daily-driver tooling and modes built *with* Hermes's help, then
-installed on Clarke's laptop as daily driver, then the PC once he's back at uni. No
-installable code exists yet; nothing in this repo may claim otherwise. No hard
-feature-complete deadline — see V0.1.md.
+**Before any work here:** read devlog.md's latest entry for where things actually
+stand and what's next — every entry ends with one. Longer-term ideas live in
+[ideas/](ideas/), organized by topic; check there before designing something from
+scratch, and update it as thinking changes. Nothing in ideas/ is a commitment.
 
 ## Hard constraints
 
-- **Design for Hermes first.** v0.1's job is running Hermes Agent, not modes or rice
-  on their own — those come after, built with the agent's help.
-- **Clarke is learning Nix — that's a deliverable, not friction.** Sessions explain
-  the concepts behind every non-obvious Nix construct and let Clarke drive design
-  decisions. Don't generate a finished flake over his head.
-- **VM before metal.** Nothing is declared "working" until it boots via
-  `nixos-rebuild build-vm`; nothing touches real hardware until proven there.
-- **Open source first.** Stylix, home-manager, established flake patterns — reuse
-  before writing.
-- **Multi-host from day one.** Laptop now, PC later — per-host config separated
-  from shared modules from the first commit.
+- **Build the substrate, not an agent.** No agent exists to run yet; don't block on
+  one, don't hand-build one here either.
+- **Clarke is learning Nix — that's a deliverable, not friction.** Explain the
+  concepts behind every non-obvious Nix construct. Let Clarke drive design
+  decisions — don't generate a finished flake over his head.
+- **VM before metal, until metal is MojOS.** Nothing is declared "working" until it
+  boots via `nixos-rebuild build-vm` — that's the bar before the first real install.
+  Once MojOS is running on real hardware, changes get made and switched from within
+  it directly; NixOS generations (and the wider reversibility architecture) are the
+  safety net from that point on, not a VM.
+- **Open source first.** Reuse established patterns (Stylix, home-manager, disko,
+  etc.) before writing custom.
+- **Multi-host, added as needed.** A host gets its own `hosts/<hostname>/` directory
+  when it actually exists — not a generic placeholder, not built ahead of the
+  hardware.
 - Docs only when earned — no scaffolded directories.
